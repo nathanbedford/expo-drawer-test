@@ -10,7 +10,10 @@ import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Drawer from "expo-router/drawer";
+import {Drawer} from "react-native-drawer-layout";
+import { Stack } from "expo-router";
+import { View, StyleSheet, Text } from "react-native";
+import React from "react";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,12 +54,29 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const [open, setOpen] = React.useState(true);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* <Drawer
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
+      renderDrawerContent={() => {
+        return <Text>Drawer content</Text>;
+      }}
+    > */}
+      <View style={styles.header}>Header</View>
+      <Stack screenOptions={{headerShown: false}}/>
+      {/* </Drawer> */}
+      {/* <GestureHandlerRootView style={{ flex: 1 }}>
         <Drawer />
-      </GestureHandlerRootView>
+      </GestureHandlerRootView> */}
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  // @ts-expect-error: Leave it alone
+  header: {position: 'fixed', height: 40, left: 0, top: 0, zIndex: 1000, width: '100%', backgroundColor: 'white'}
+})
